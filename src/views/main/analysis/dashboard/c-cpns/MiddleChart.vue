@@ -1,29 +1,43 @@
 <template>
   <div class="middle-chart">
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>分类图数据</span>
-        </div>
-      </template>
-      <PieEchart />
-    </el-card>
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>分类图数据</span>
-        </div>
-      </template>
-      <MapEchart :map-data="mapGoodsAddressSale" />
-    </el-card>
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>分类图数据</span>
-        </div>
-      </template>
-      <RoseEchart :rose-data="mapGoodsCategorySale" />
-    </el-card>
+    <el-row :gutter="10">
+      <el-col v-bind="responsive">
+        <el-card class="box-card">
+          <el-skeleton :rows="5" animated :loading="goodsCategoryCount.length === 0">
+            <template #header>
+              <div class="card-header">
+                <span>分类商品数量（饼图）</span>
+              </div>
+            </template>
+            <PieEchart :data="mapGoodsCategoryCount" />
+          </el-skeleton>
+        </el-card>
+      </el-col>
+      <el-col v-bind="responsive">
+        <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <span>不同城市商品销量</span>
+            </div>
+          </template>
+          <el-skeleton :rows="5" animated :loading="goodsCategorySale.length === 0">
+            <MapEchart :map-data="mapGoodsAddressSale" />
+          </el-skeleton>
+        </el-card>
+      </el-col>
+      <el-col v-bind="responsive">
+        <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <span>分类商品数量（玫瑰图）</span>
+            </div>
+          </template>
+          <el-skeleton :rows="5" animated :loading="goodsCategorySale.length === 0">
+            <RoseEchart :rose-data="mapGoodsCategorySale" />
+          </el-skeleton>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -33,8 +47,23 @@ import { storeToRefs } from 'pinia'
 import { PieEchart, LineEchart, RoseEchart, MapEchart } from '@/components/page-echarts'
 import useAnalysisStore from '@/store/analysis'
 
+const responsive = {
+  xl: 8,
+  lg: 8,
+  md: 12,
+  sm: 12,
+  xs: 24
+}
+
 const analysisStore = useAnalysisStore()
-const { goodsCategorySale, goodsAddressSale } = storeToRefs(analysisStore)
+const { goodsCategoryCount, goodsCategorySale, goodsAddressSale } = storeToRefs(analysisStore)
+
+const mapGoodsCategoryCount = computed(() => {
+  const res = goodsCategoryCount.value.map((item) => {
+    return { name: item.name, value: item.goodsCount }
+  })
+  return res
+})
 
 const mapGoodsCategorySale = computed(() => {
   const res = goodsCategorySale.value.map((item) => {
@@ -52,13 +81,7 @@ const mapGoodsAddressSale = computed(() => {
 </script>
 
 <style lang="less" scoped>
-.middle-chart {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-
-  .el-card {
-    width: 32.4%;
-  }
+.el-col {
+  margin-bottom: 10px;
 }
 </style>

@@ -67,6 +67,7 @@ function onRouteJump(url: string) {
 
 <style lang="less" scoped>
 .aside {
+  overflow: hidden;
   height: 100%;
   background-color: var(--primary-color);
   color: #fff;
@@ -91,6 +92,8 @@ function onRouteJump(url: string) {
 }
 
 .el-menu {
+  border: none;
+
   .el-menu-item {
     padding-left: 50px !important;
     background-color: var(--second-color);

@@ -93,10 +93,10 @@ interface IPms {
   isQuery: boolean
 }
 const pms = reactive<IPms>({
-  isCreate: isPermission(`system:${props.contentConfig.pageName}:create`),
-  isDelete: isPermission(`system:${props.contentConfig.pageName}:delete`),
-  isUpdate: isPermission(`system:${props.contentConfig.pageName}:update`),
-  isQuery: isPermission(`system:${props.contentConfig.pageName}:query`)
+  isCreate: isPermission(`${props.contentConfig.pageName}:create`),
+  isDelete: isPermission(`${props.contentConfig.pageName}:delete`),
+  isUpdate: isPermission(`${props.contentConfig.pageName}:update`),
+  isQuery: isPermission(`${props.contentConfig.pageName}:query`)
 })
 
 const systemStore = useSystemStore()

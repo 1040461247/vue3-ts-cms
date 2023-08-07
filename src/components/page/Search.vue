@@ -3,7 +3,7 @@
     <el-form label-width="70px" size="large" :model="formData" ref="formRef">
       <el-row :gutter="30">
         <template v-for="item in searchConfig.formItems" :key="item.prop">
-          <el-col :span="8">
+          <el-col v-bind="responsive">
             <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
                 <el-input :placeholder="item.placeholder" v-model="formData[item.prop]" />
@@ -44,6 +44,14 @@ import { reactive, ref } from 'vue'
 import isPermission from '@/utils/isPermission'
 import type { FormInstance } from 'element-plus'
 
+const responsive = {
+  xl: 8,
+  lg: 8,
+  md: 12,
+  sm: 24,
+  xs: 24
+}
+
 interface IProps {
   searchConfig: {
     pageName: string
@@ -54,7 +62,7 @@ const props = defineProps<IProps>()
 const emit = defineEmits(['queryClick', 'resetClick'])
 
 // 获取权限
-const isQuery = isPermission(`system:${props.searchConfig.pageName}:query`)
+const isQuery = isPermission(`${props.searchConfig.pageName}:query`)
 
 // 表单数据
 const initialFormData: any = {}

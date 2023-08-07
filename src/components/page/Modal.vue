@@ -1,6 +1,11 @@
 <template>
   <div class="modal">
-    <el-dialog v-model="centerDialogVisible" :title="isCreateRef ? '新建部门' : '编辑部门'" width="30%" center>
+    <el-dialog
+      v-model="centerDialogVisible"
+      :title="isCreateRef ? modalConfig.title.newTitle : modalConfig.title.editTitle"
+      width="30%"
+      center
+    >
       <div class="content">
         <el-form :model="formData" label-width="80px">
           <template v-for="item in modalConfig.formItems" :key="item.prop">

@@ -1,7 +1,10 @@
 <template>
   <div class="header">
     <div class="fold" @click="onFoldIcon">
-      <el-icon size="25"><Fold /></el-icon>
+      <el-icon size="25">
+        <Fold v-show="!isFold" />
+        <Expand v-show="isFold" />
+      </el-icon>
     </div>
 
     <div class="crumb">
@@ -26,7 +29,7 @@
         <el-dropdown>
           <span class="el-dropdown-link">
             <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="30" />
-            <span class="name">名字</span>
+            <span class="name">{{ username }}</span>
             <el-icon class="el-icon--right">
               <arrow-down />
             </el-icon>
@@ -60,14 +63,14 @@ import { localCache } from '@/utils/cache'
 import { mapPathToBreadcrumbs } from '@/utils/map-menus'
 import { TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
 
+const props = defineProps<{ isFold: boolean }>()
+
 const emit = defineEmits(['menuFoldChange'])
 const router = useRouter()
 const route = useRoute()
 
-const isFold = ref(false)
 function onFoldIcon() {
-  isFold.value = !isFold.value
-  emit('menuFoldChange', isFold.value)
+  emit('menuFoldChange')
 }
 
 function onExit() {
@@ -78,6 +81,10 @@ function onExit() {
 const breadcrumbs = computed(() => {
   const userMenus = localCache.getCache(USER_MENUS)
   return mapPathToBreadcrumbs(route.path, userMenus)
+})
+
+const username = computed(() => {
+  return localCache.getCache(USER_INFO).name
 })
 </script>
 

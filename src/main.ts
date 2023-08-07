@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import 'normalize.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/display.css'
 
 import router from './router'
 import App from './App.vue'
@@ -14,5 +15,3 @@ app.use(store)
 app.use(router)
 
 app.mount('#app')
-
-console.log('hello world')

@@ -1,22 +1,28 @@
 <template>
   <div class="total-statistics">
-    <template v-for="item in amountList" :key="item.title">
-      <el-card class="box-card">
-        <div class="top">
-          <div class="head">
-            <span>{{ item.title }}</span>
-            <el-tooltip class="box-item" effect="light" :content="item.tip" placement="top-start">
-              <el-icon size="14"><Warning /></el-icon>
-            </el-tooltip>
-          </div>
-          <AniNum :show-num="item.number1" class="content" />
-        </div>
-        <div class="bottom">
-          <span>{{ item.title }}</span>
-          <AniNum :show-num="item.number2" class="content" />
-        </div>
-      </el-card>
-    </template>
+    <el-row :gutter="10">
+      <template v-for="item in amountList" :key="item.title">
+        <el-col v-bind="responsive">
+          <el-card class="box-card">
+            <el-skeleton :rows="5" animated :loading="!item.title">
+              <div class="top">
+                <div class="head">
+                  <span class="title">{{ item.title }}</span>
+                  <el-tooltip class="box-item" effect="light" :content="item.tip" placement="top-start">
+                    <el-icon size="14"><Warning /></el-icon>
+                  </el-tooltip>
+                </div>
+                <AniNum :show-num="item.number1" class="content" />
+              </div>
+              <div class="bottom">
+                <span>{{ item.title }}</span>
+                <AniNum :show-num="item.number2" class="content" />
+              </div>
+            </el-skeleton>
+          </el-card>
+        </el-col>
+      </template>
+    </el-row>
   </div>
 </template>
 
@@ -29,31 +35,38 @@ import AniNum from './Countup.vue'
 const analysisStore = useAnalysisStore()
 analysisStore.fetchGetAmountListAction()
 const { amountList } = storeToRefs(analysisStore)
+
+const responsive = {
+  xl: 6,
+  lg: 6,
+  md: 12,
+  sm: 12,
+  xs: 24
+}
 </script>
 
 <style lang="less" scoped>
+.el-col {
+  margin-bottom: 10px;
+}
+
 hr {
   color: rgba(0, 0, 0, 0.1);
 }
-.total-statistics {
-  display: flex;
-  justify-content: space-between;
-  color: #303133;
 
-  .el-card {
-    width: 24%;
-  }
+.total-statistics {
+  color: #303133;
 }
 
 .top {
   .head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     color: #92969a;
 
-    span {
+    .title {
       font-size: 14px;
+      margin-bottom: 8px;
     }
     .el-icon {
       cursor: pointer;

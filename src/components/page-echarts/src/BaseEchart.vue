@@ -1,6 +1,6 @@
 <template>
   <div class="base-echart">
-    <div class="echart" ref="echartRef" style="height: 300px"></div>
+    <div class="echart" ref="echartRef" style="height: 360px"></div>
   </div>
 </template>
 

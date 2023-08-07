@@ -1,5 +1,5 @@
 <template>
-  <div class="line-echart">
+  <div class="bar-echart">
     <BaseEchart :option="option" />
   </div>
 </template>
@@ -15,24 +15,8 @@ interface IProps {
 const props = defineProps<IProps>()
 
 const option = computed(() => ({
-  legend: {
-    data: ['分别销量']
-  },
-  tooltip: {
-    show: true,
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross'
-    }
-  },
-  toolbox: {
-    feature: {
-      saveAsImage: { show: true }
-    }
-  },
   xAxis: {
     type: 'category',
-    boundaryGap: false,
     data: props.axisData
   },
   yAxis: {
@@ -40,10 +24,8 @@ const option = computed(() => ({
   },
   series: [
     {
-      name: '分别销量',
       data: props.seriesData,
-      type: 'line',
-      areaStyle: {}
+      type: 'bar'
     }
   ]
 }))
